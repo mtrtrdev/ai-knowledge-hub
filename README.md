@@ -80,43 +80,44 @@ streamlit run main.py
 
 AIナレッジハブの質問から回答までのワークフローは以下の通りです。
 
+
 ```mermaid
 graph TD
-    subgraph Frontend (main.py)
-        A -- [ユーザー入力: 質問テキストエリア] --> B{テンプレート/履歴ボタンクリック}
-        B -- 更新された質問 --> C[質問入力欄]
+    subgraph Frontend_main_py
+        A[ユーザー入力: 質問テキストエリア] --> B{テンプレート/履歴ボタンクリック}
+        B --> C[質問入力欄]
         C --> D[回答生成ボタンクリック]
     end
 
-    subgraph Backend (agent.py)
-        D -- ユーザー質問 --> E(観点生成エージェント: perspective_generation_agent)
-        E -- 生成された観点リスト --> F(複数の汎用エージェント: generic_perspective_agent)
-        F -- 各観点と質問 --> G(汎用エージェントインスタンス)
-        G -- 個別回答 --> H{回答収集}
-        H -- 全ての個別回答 + ユーザー質問 --> I(統括エージェント: overall_agent)
-        I -- 最終回答 --> J[回答表示]
+    subgraph Backend_agent_py
+        D --> E[観点生成エージェント: perspective_generation_agent]
+        E --> F[複数の汎用エージェント: generic_perspective_agent]
+        F --> G[汎用エージェントインスタンス]
+        G --> H{回答収集}
+        H --> I[統括エージェント: overall_agent]
+        I --> J[回答表示]
     end
 
     subgraph External
-        E -- API呼び出し --> K[Google Gemini AI]
-        G -- API呼び出し --> K
-        I -- API呼び出し --> K
+        E --> K[Google Gemini AI]
+        G --> K
+        I --> K
     end
 
     J --> L[question_history.json: 履歴保存]
-    L -- 履歴読み込み (アプリ起動時 & 更新時) --> M[サイドバー履歴ボタン]
+    L --> M[サイドバー履歴ボタン]
     M --> B
 
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#bbf,stroke:#333,stroke-width:2px
-    style C fill:#f9f,stroke:#333,stroke-width:2px
-    style D fill:#f9f,stroke:#333,stroke-width:2px
-    style E fill:#ccf,stroke:#333,stroke-width:2px
-    style F fill:#ccf,stroke:#333,stroke-width:2px
-    style G fill:#ccf,stroke:#333,stroke-width:2px
-    style H fill:#ccf,stroke:#333,stroke-width:2px
-    style I fill:#ccf,stroke:#333,stroke-width:2px
-    style J fill:#fcf,stroke:#333,stroke-width:2px
-    style K fill:#ffc,stroke:#333,stroke-width:2px
-    style L fill:#cfc,stroke:#333,stroke-width:2px
-    style M fill:#bbf,stroke:#333,stroke-width:2px
+     style A fill:#ffddaa,stroke:#333,stroke-width:2px,color:#000000
+    style B fill:#aaffaa,stroke:#333,stroke-width:2px,color:#000000
+    style C fill:#ffddaa,stroke:#333,stroke-width:2px,color:#000000
+    style D fill:#ffddaa,stroke:#333,stroke-width:2px,color:#000000
+    style E fill:#ddbbff,stroke:#333,stroke-width:2px,color:#000000
+    style F fill:#ddbbff,stroke:#333,stroke-width:2px,color:#000000
+    style G fill:#ddbbff,stroke:#333,stroke-width:2px,color:#000000
+    style H fill:#ddbbff,stroke:#333,stroke-width:2px,color:#000000
+    style I fill:#ddbbff,stroke:#333,stroke-width:2px,color:#000000
+    style J fill:#aaffee,stroke:#333,stroke-width:2px,color:#000000
+    style K fill:#ffeeaa,stroke:#333,stroke-width:2px,color:#000000
+    style L fill:#aaddff,stroke:#333,stroke-width:2px,color:#000000
+    style M fill:#aaffaa,stroke:#333,stroke-width:2px,color:#000000
